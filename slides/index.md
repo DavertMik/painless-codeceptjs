@@ -1,10 +1,8 @@
-## CodeceptJS
+### Painless JavaScript testing with CodeceptJS
 
-### End to End Testing Without Pain
-
-![](https://codecept.io/images/cjs-base.png)
+![](img/cjs-base.png)
 
 by Michael Bodnarchuk
 
 
-2018
+2019

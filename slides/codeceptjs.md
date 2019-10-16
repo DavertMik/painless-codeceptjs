@@ -1,10 +1,3 @@
-
-## There is a solution...
-
-(not perfect, but who is perfect in this world?)
-
----
-
 # CodeceptJS
 
 ![](img/cjs-base.png)
@@ -18,7 +11,7 @@
 * **end to end** testing framework
 * helpers for popular testing backend
 * high-level **unified APIs** for all backends
-* **~15K** week installations 
+* **~50K** weekly installations 
 
 [codecept.io](https://codecept.io)
 
@@ -52,46 +45,46 @@ Scenario('todomvc', (I) => {
 
 ---
 
-## Problems to be solved
-
-* What framework to choose?
-* Actions Are flaky
-* Locators Are Flaky
-* Readability
-
----
-
 ### Architecture
 
 ![](img/codeceptjs-backends.svg)
 
 ---
 
-## Multi-Backend Framework
+## Meta-Framework
 
-* CodeceptJS is a meta-framework
-* Tests can be run by Selenium, Puppeteer, Appium, Protractor,...
+* Tests can be run by Selenium, Puppeteer, TestCafe, Appium, Protractor,...
 * Tests use the same interface
 * If a new tool emerges it's easy to add it 
 * If an edgecase is hit, it's easy to migrate tests
 
 ---
 
-### Flaky actions
+## Problems to Solve
 
-* Retry flaky steps
+* Flaky Actions
+* Flaky Locators
+* Complex Locators
+* Debugging
+* Reporting
+* Parallel Execution
+* Data Management
+
+---
+
+### Solution 👉 Flaky actions
+
+* Use `autoRety` plugin
+* Explicitly retry flaky steps
 
 ```js
 I.retry(2).click('Link');
 ```
-* Auto-retry plugin
 * Use wait* commands
 
 ```js
 I.waitForElement('.modal');
 ```
-
-* SmartWait
 
 ---
 
@@ -104,6 +97,19 @@ I.waitForElement('.modal');
   * form element names
 * Use CSS/XPath for stable parts
 * Locator builder
+
+---
+
+## Simplify Complex Locators
+
+```js
+locate('//table')
+  .find('a')
+  .withText('Edit')
+  .as('edit button')
+
+// transformed to XPath  
+```
 
 ---
 
@@ -187,58 +193,69 @@ let code = await I.grabValueFrom('#code')
 ### Live Development
 
 ```js
-I.amOnPage('/');
+I.amOnPage('/checkout');
 pause();
 ```
 
-* Call `pause()` to interrupt the test
-* Use interactive shell to try different commands
-* Copy successful commands into a test
+![](img/pause.gif)
 
 ---
 
-### Other Notable Features
+### Debugging
 
-* Multi session testing
-* Data management
-* Allure reports
-* Official Docker image
-* Mobile tests
+* Pause execution whenever you want
+* Automatically saved screenshot on fail
+
+```js
+After(pause);
+```
+
+---
+
+### Data Management
+
+Generate and store all data via **REST** or **GraphQL**
+
+```js
+const product = await I.have('product');
+const review = await I.have('review', { product_id: product.id });
+```
+
+---
+
+### Parallel Execution
+
+```
+npx codeceptjs run-workers 3
+```
+
+---
+
+### Reporting
+
+![](img/allure.png)
+
+Allure report integrated
+
+---
+
+## Writing a Test
+
+<video controls="" src="img/codeceptjs_demo.mp4" style="width:100%;padding:20px"></video>
 
 ---
 
 ## Conclusions
 
 * CodeceptJS is a meta framework
-* CodeceptJS focused on readability
+* CodeceptJS solves real testing problems
 * CodeceptJS simplifies end to end testing
 
 ---
 
-## Taking it further...
-
-* Meet [EasyTesting.io](https://easytesting.io)...
-
----
-
-## CodeceptJS As A Service
-
-![](img/easytesting.png)
-
----
-
-### EasyTesting
-
-* Online IDE for End to End tests
-* Runs tests in cloud
-* Easy to get for non-developers
-* Fully compatible with CodeceptJS
-
----
 
 ## Questions
 
 * **Michael Bodnarchuk @davert**
 * CodeceptJS: [codecept.io](https://codecept.io)
-* EasyTesting: [easytesting.io](https://easytesting.io)
- 
+
